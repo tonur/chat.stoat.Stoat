@@ -26,13 +26,12 @@
   <screenshots>
     <screenshot type="default">
       <image type="source">
-        https://raw.githubusercontent.com/flathub/chat.stoat.Stoat/50940340c71dd975d0eb959174b58f12c97f58d0/screenshot.png</image>
-      <caption>Dark Mode Window</caption>
+        https://raw.githubusercontent.com/tonur/chat.stoat.Stoat/main/screenshot.png</image>
+      <caption>Normal</caption>
     </screenshot>
   </screenshots>
   <branding>
-    <color type="primary" scheme_preference="light">#a0aaf3</color>
-    <color type="primary" scheme_preference="dark">#3831a8</color>
+    <color type="primary" scheme_preference="dark">#211a19</color>
   </branding>
   <categories>
     <category>InstantMessaging</category>

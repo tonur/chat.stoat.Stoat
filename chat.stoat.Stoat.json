@@ -95,7 +95,7 @@
         "mv Stoat-linux-x64 stoat-app",
         "mv stoat-app/stoat-desktop stoat-app/Stoat",
         "chmod +x stoat-app/Stoat",
-        "install -Dm755 chat.stoat.Stoat.sh /app/bin/chat.stoat.Stoat",
+        "install -Dm755 stoat.sh /app/bin/chat.stoat.Stoat",
         "install -Dm755 disable-breaking-updates.py /app/bin",
         "mv stoat-app /app/stoat",
         "install -Dm644 chat.stoat.Stoat.svg /app/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg",
@@ -126,7 +126,7 @@
         },
         {
           "type": "file",
-          "path": "chat.stoat.Stoat.sh"
+          "path": "stoat.sh"
         },
         {
           "type": "file",
