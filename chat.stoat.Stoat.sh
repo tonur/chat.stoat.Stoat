@@ -1,0 +1,41 @@
+#!/bin/bash
+
+read -ra SOCAT_ARGS <<<"${SOCAT_ARGS}"
+
+FLATPAK_ID=${FLATPAK_ID:-"chat.stoat.Stoat"}
+OUR_SOCKET="${XDG_RUNTIME_DIR}/app/${FLATPAK_ID}/stoat-ipc-0"
+STOAT_SOCKET="${XDG_RUNTIME_DIR}/stoat-ipc-0"
+
+invoke_socat=true
+# Check if our socket already exists.
+if [ -S "${OUR_SOCKET}" ]
+then
+    # Check if socat is listening on it.
+    if socat "${SOCAT_ARGS[@]}" -u OPEN:/dev/null "UNIX-CONNECT:${OUR_SOCKET}"
+    then
+        # socat is still listening on it, make sure not not invoke it again.
+        invoke_socat=false
+    else
+        # Socket exists but socat is not listening on it (for whatever reason), delete it so we can invoke socat again.
+        rm -f "${OUR_SOCKET}"
+    fi
+fi
+
+if [ "${invoke_socat}" = true ]
+then
+    socat "${SOCAT_ARGS[@]}" "UNIX-LISTEN:${OUR_SOCKET},forever,fork" "UNIX-CONNECT:${STOAT_SOCKET}" &
+    socat_pid=$!
+fi
+
+if [ -f "${XDG_CONFIG_HOME}/stoat-flags.conf" ]
+then
+    mapfile -t FLAGS <<< "$(grep -Ev '^\s*$|^#' "${XDG_CONFIG_HOME}/stoat-flags.conf")"
+fi
+
+disable-breaking-updates.py
+env TMPDIR="${XDG_CACHE_HOME}" zypak-wrapper /app/stoat/Stoat --enable-speech-dispatcher "${FLAGS[@]}" "$@"
+
+if [ "${invoke_socat}" = true ]
+then
+    kill -SIGTERM "${socat_pid}"
+fi

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Stoat
+Comment=The chat app where you are the main character
+Exec=chat.stoat.Stoat %U
+Icon=chat.stoat.Stoat
+Terminal=false
+Type=Application
+Categories=InstantMessaging;Network;
+StartupNotify=true
+X-Flatpak=chat.stoat.Stoat

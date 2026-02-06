@@ -1,0 +1,150 @@
+{
+  "app-id": "chat.stoat.Stoat",
+  "base": "org.electronjs.Electron2.BaseApp",
+  "base-version": "25.08",
+  "runtime": "org.freedesktop.Platform",
+  "runtime-version": "25.08",
+  "sdk": "org.freedesktop.Sdk",
+  "command": "chat.stoat.Stoat",
+  "separate-locales": false,
+  "tags": ["proprietary"],
+  "finish-args": [
+    "--share=ipc",
+    "--socket=wayland",
+    "--socket=x11",
+    "--socket=pcsc",
+    "--socket=pulseaudio",
+    "--share=network",
+    "--device=all",
+    "--talk-name=org.freedesktop.ScreenSaver",
+    "--filesystem=xdg-videos:ro",
+    "--filesystem=xdg-pictures:ro",
+    "--filesystem=xdg-download",
+    "--filesystem=xdg-run/pipewire-0",
+    "--filesystem=xdg-run/speech-dispatcher",
+    "--talk-name=org.kde.StatusNotifierWatcher",
+    "--talk-name=com.canonical.AppMenu.Registrar",
+    "--talk-name=com.canonical.indicator.application",
+    "--talk-name=com.canonical.Unity",
+    "--system-talk-name=org.freedesktop.UPower",
+    "--env=XCURSOR_PATH=/run/host/user-share/icons:/run/host/share/icons",
+    "--env=ELECTRON_TRASH=gio"
+  ],
+  "modules": [
+    {
+      "name": "socat",
+      "config-opts": [
+        "--disable-largefile",
+        "--disable-stats",
+        "--disable-stdio",
+        "--disable-fdnum",
+        "--disable-creat",
+        "--disable-gopen",
+        "--disable-pipe",
+        "--disable-socketpair",
+        "--disable-termios",
+        "--disable-abstract-unixsocket",
+        "--disable-ip6",
+        "--disable-rawip",
+        "--disable-genericsocket",
+        "--disable-interface",
+        "--disable-tcp",
+        "--disable-udp",
+        "--disable-udplite",
+        "--disable-sctp",
+        "--disable-dccp",
+        "--disable-vsock",
+        "--disable-namespaces",
+        "--disable-posixmq",
+        "--disable-socks4",
+        "--disable-socks4a",
+        "--disable-socks5",
+        "--disable-proxy",
+        "--disable-exec",
+        "--disable-system",
+        "--disable-shell",
+        "--disable-pty",
+        "--disable-fs",
+        "--disable-readline",
+        "--disable-openssl",
+        "--disable-tun",
+        "--disable-sycls",
+        "--disable-filan",
+        "--disable-libwrap",
+        "--disable-resolve"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "http://www.dest-unreach.org/socat/download/socat-1.8.1.0.tar.gz",
+          "sha256": "9a884880b1b00dfb2ffc6959197b1554b200af731018174cd048115dc28ef239",
+          "x-checker-data": {
+            "type": "anitya",
+            "project-id": 4848,
+            "url-template": "http://www.dest-unreach.org/socat/download/socat-$version.tar.gz"
+          }
+        }
+      ],
+      "cleanup": ["/bin/*.sh", "/bin/filan", "/bin/procan", "/share"]
+    },
+    {
+      "name": "Stoat",
+      "buildsystem": "simple",
+      "build-commands": [
+        "unzip Stoat-linux-x64-1.1.12.zip",
+        "mv Stoat-linux-x64 stoat-app",
+        "mv stoat-app/stoat-desktop stoat-app/Stoat",
+        "chmod +x stoat-app/Stoat",
+        "install -Dm755 chat.stoat.Stoat.sh /app/bin/chat.stoat.Stoat",
+        "install -Dm755 disable-breaking-updates.py /app/bin",
+        "mv stoat-app /app/stoat",
+        "install -Dm644 chat.stoat.Stoat.svg /app/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg",
+        "install -Dm644 chat.stoat.Stoat.appdata.xml /app/share/appdata/${FLATPAK_ID}.appdata.xml",
+        "install -Dm644 chat.stoat.Stoat.desktop /app/share/applications/${FLATPAK_ID}.desktop"
+      ],
+      "post-install": [
+        "desktop-file-edit --add-mime-type=x-scheme-handler/stoat /app/share/applications/${FLATPAK_ID}.desktop",
+        "desktop-file-edit --set-key=Exec --set-value='chat.stoat.Stoat %U' /app/share/applications/${FLATPAK_ID}.desktop",
+        "desktop-file-edit --set-key=Icon --set-value=chat.stoat.Stoat /app/share/applications/${FLATPAK_ID}.desktop",
+        "desktop-file-edit --remove-key=Path /app/share/applications/${FLATPAK_ID}.desktop",
+        "patch-desktop-filename ${FLATPAK_DEST}/stoat/resources/app.asar"
+      ],
+      "sources": [
+        {
+          "type": "file",
+          "url": "https://github.com/stoatchat/for-desktop/releases/download/v1.1.12/Stoat-linux-x64-1.1.12.zip",
+          "dest-filename": "Stoat-linux-x64-1.1.12.zip",
+          "sha256": "eabbdb9a84867669725d84bb1b7884ea752e2f82076c34ca5a249e6c0557ab6f",
+          "x-checker-data": {
+            "type": "json",
+            "url": "https://api.github.com/repos/stoatchat/for-desktop/releases/latest",
+            "version-query": ".tag_name",
+            "timestamp-query": ".published_at",
+            "url-query": ".assets[] | select(.name == \"Stoat-linux-x64-$version.zip\") | .browser_download_url",
+            "is-main-source": true
+          }
+        },
+        {
+          "type": "file",
+          "path": "chat.stoat.Stoat.sh"
+        },
+        {
+          "type": "file",
+          "path": "chat.stoat.Stoat.appdata.xml"
+        },
+        {
+          "type": "file",
+          "path": "chat.stoat.Stoat.svg"
+        },
+        {
+          "type": "file",
+          "path": "chat.stoat.Stoat.desktop"
+        },
+        {
+          "type": "file",
+          "path": "disable-breaking-updates.py"
+        }
+      ]
+    }
+  ]
+}
