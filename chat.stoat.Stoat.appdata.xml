@@ -14,14 +14,11 @@
   <url type="contact">https://support.stoat.chat/contact</url>
   <launchable type="desktop-id">chat.stoat.Stoat.desktop</launchable>
   <description>
-    <p>
-      Text channels,
-      done right.
+    <h2>Text channels,<br /> done right.</h2>
+    <p>Attach images. 🐈 <a>@mention</a> users.<br />
+      <a href="">Link</a> to websites. Welcome to the
+      21st century.</p>
 
-      Attach images. @mention users.
-      Link to websites.
-      Welcome to the 21st century.
-    </p>
   </description>
   <screenshots>
     <screenshot type="default">
