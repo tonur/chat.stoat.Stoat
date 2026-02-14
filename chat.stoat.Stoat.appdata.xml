@@ -7,7 +7,7 @@
   </developer>
   <summary>The chat app where you are the main character</summary>
   <metadata_license>CC0-1.0</metadata_license>
-  <project_license>LicenseRef-proprietary</project_license>
+  <project_license>AGPL-3.0-only</project_license>
   <url type="homepage">https://stoat.chat/</url>
   <url type="help">https://support.stoat.chat/</url>
   <url type="bugtracker">https://github.com/orgs/stoatchat/discussions</url>
@@ -18,7 +18,6 @@
     <p>Attach images. 🐈 <a>@mention</a> users.<br />
       <a href="">Link</a> to websites. Welcome to the
       21st century.</p>
-
   </description>
   <screenshots>
     <screenshot type="default">
@@ -31,8 +30,10 @@
     <color type="primary" scheme_preference="dark">#211a19</color>
   </branding>
   <categories>
+    <category>Chat</category>
     <category>InstantMessaging</category>
     <category>Network</category>
+    <category>Telephony</category>
   </categories>
   <content_rating type="oars-1.1">
     <content_attribute id="social-chat">intense</content_attribute>
